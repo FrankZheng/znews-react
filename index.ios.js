@@ -7,6 +7,7 @@
 var React = require('react-native');
 var {
   AppRegistry,
+  ListView,
   Image,
   StyleSheet,
   Text,
@@ -39,7 +40,10 @@ function getThumbUrlFromUrl(url:string) :string {
 var znews_react = React.createClass({
   getInitialState: function() {
     return {
-      news : null,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      loaded: false,
     }
   },
 
@@ -53,7 +57,8 @@ var znews_react = React.createClass({
     .then((response) => response.json())
     .then((responseData) => {
       this.setState( {
-        news: responseData,
+        dataSource: this.state.dataSource.cloneWithRows(responseData),
+        loaded: true,
       });
     })
     .done();
@@ -69,7 +74,7 @@ var znews_react = React.createClass({
     );
   },
 
-  renderNewsView:function(news) {
+  renderNewsView: function(news) {
     var thumbUrl = getThumbUrlFromUrl(news.thumb);
     return (
       <View style={styles.container}>
@@ -87,11 +92,16 @@ var znews_react = React.createClass({
   },
   
   render: function() {
-    if(!this.state.news) {
+    if(!this.state.loaded) {
       return this.renderLoadingView();
     }
-    var news = this.state.news[0];
-    return this.renderNewsView(news);
+    return (
+      <ListView 
+        dataSource={this.state.dataSource}
+        renderRow={this.renderNewsView}
+        style={styles.listView}
+      />
+      );
   },
 
 });
@@ -132,7 +142,11 @@ var styles = StyleSheet.create({
   thumbnail: {
     width: 80,
     height: 80,
-  }
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF',
+  },
 });
 
 AppRegistry.registerComponent('znews_react', () => znews_react);
