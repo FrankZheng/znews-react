@@ -8,8 +8,6 @@ var {
 } = React;
 
 var ARTICLE_URL = "http://xnewsreader.herokuapp.com/article/";
-var ARTICLE_ID = "555874e02e3ce90300162f0f";
-
 
 var NewsDetailScreen = React.createClass({
 	getInitialState : function() {
@@ -32,8 +30,7 @@ var NewsDetailScreen = React.createClass({
 	},
 
 	componentDidMount: function() {
-		//this.fetchData(this.props.articleId);
-		this.fetchData(ARTICLE_ID);
+		this.fetchData(this.props.news._id);
 	},
 
 	renderLoadingView: function() {
