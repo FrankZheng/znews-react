@@ -11,7 +11,8 @@ var {
   NavigatorIOS,
 } = React;
 
-var NewsListScreen = require('./NewsListScreen')
+var NewsListScreen = require('./NewsListScreen');
+var NewsDetailScreen = require('./NewsDetailScreen');
 
 var NewsApp = React.createClass({
   render: function() {
