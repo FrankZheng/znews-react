@@ -44,11 +44,32 @@ var znews_react = React.createClass({
   },
 
   componentDidMount: function() {
+    this.fetchData();
 
   },
-  
-  render: function() {
-    var news = NEWS_DATA[0];
+
+  fetchData: function() {
+    fetch(REQUEST_URL)
+    .then((response) => response.json())
+    .then((responseData) => {
+      this.setState( {
+        news: responseData,
+      });
+    })
+    .done();
+  },
+
+  renderLoadingView: function() {
+    return (
+      <View style={styles.container}>
+        <Text>
+          Loading news...
+        </Text>
+      </View>
+    );
+  },
+
+  renderNewsView:function(news) {
     var thumbUrl = getThumbUrlFromUrl(news.thumb);
     return (
       <View style={styles.container}>
@@ -63,7 +84,16 @@ var znews_react = React.createClass({
         </View>
       </View>
     );
-  }
+  },
+  
+  render: function() {
+    if(!this.state.news) {
+      return this.renderLoadingView();
+    }
+    var news = this.state.news[0];
+    return this.renderNewsView(news);
+  },
+
 });
 
 var styles = StyleSheet.create({
