@@ -11,9 +11,15 @@ var {
   PixelRatio,
 } = React;
 
+function formatPubDate(pubDate:String): String {
+  //if date is today, show time
+  //else show month/day
+  return pubDate;
+}
+
 var NewsCell = React.createClass({
 	render: function() {
-		return (
+    return (
 	      <View>
 	        <TouchableHighlight onPress={this.props.onSelect}>
 	          <View style={styles.row}>
@@ -23,8 +29,12 @@ var NewsCell = React.createClass({
 	            />
 	            <View style={styles.textContainer}>
 	              <Text style={styles.title}>{this.props.news.title}</Text>
-	              <Text style={styles.publisher}>{this.props.news.publisher} </Text>
-	              <Text style={styles.pubDate}>{this.props.news.pubDate}</Text>
+                <View style={styles.subInfoContainer}>
+	               <Text style={styles.publisher}>{this.props.news.publisher} </Text>
+	               <Text style={styles.pubDate}>
+                  {formatPubDate(this.props.news.pubDate)}
+                  </Text>
+                </View>
 	            </View>
 	          </View>
 	        </TouchableHighlight>
@@ -45,16 +55,24 @@ var styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    marginLeft: 10
+    marginLeft: 10,
+    justifyContent: 'flex-start',
+
   },
   title: {
     fontSize : 16,
     textAlign: 'left',
+    //backgroundColor: '#cccccc',
+  },
+  subInfoContainer: {
+    flexDirection: 'row',
   },
   publisher: {
+    flex: 1,
     textAlign: 'left'
   },
   pubDate: {
+    flex: 1,
     textAlign: 'right'
   },
   thumbnail: {
