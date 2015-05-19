@@ -10,6 +10,7 @@ var {
 
 var NewsDetailScreen = require('./NewsDetailScreen');
 var NewsCell = require('./NewsCell');
+var LoadingView = require('./LoadingView');
 
 var XNEWS_SERVER_URL = "http://xnewsreader.herokuapp.com/thumb";
 
@@ -49,11 +50,9 @@ var NewsListScreen = React.createClass({
 
   renderLoadingView: function() {
     return (
-      <View style={styles.loadingView}>
-        <Text style={styles.loadingText}>
-          Loading news...
-        </Text>
-      </View>
+      <LoadingView
+        message="Loading news..."
+      />
     );
   },
 
@@ -93,17 +92,6 @@ var NewsListScreen = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  loadingView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    padding: 5,
-  },
-  loadingText: {
-    fontSize: 20,
-  },
   listView: {
     backgroundColor: '#F5FCFF',
   },

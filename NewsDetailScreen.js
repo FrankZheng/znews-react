@@ -9,6 +9,8 @@ var {
   ScrollView,
 } = React;
 
+var LoadingView = require('./LoadingView');
+
 var ARTICLE_URL = "http://xnewsreader.herokuapp.com/article/";
 
 var NewsDetailScreen = React.createClass({
@@ -37,11 +39,9 @@ var NewsDetailScreen = React.createClass({
 
 	renderLoadingView: function() {
 		return (
-			<View style={styles.container}>
-				<Text>
-					Loading news detail...
-				</Text>
-			</View>
+			<LoadingView
+				message="Loading news detail..."
+			/>
 		);
 	},
 
