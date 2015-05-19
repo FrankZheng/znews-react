@@ -14,6 +14,21 @@ var {
 function formatPubDate(pubDate:String): String {
   //if date is today, show time
   //else show month/day
+  //implementation is ugly and not fast, use format instead.
+
+  if(Date.parse(pubDate)) {
+    var date = new Date(pubDate);
+    var now = new Date();
+    if(date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth() &&
+      date.getFullYear() === now.getFullYear()) {
+      //today
+      var min = date.getMinutes();
+      return date.getHours() + ":" + (min < 10 ? ('0'+min) : min);
+    } else {
+      return date.getMonth() + "-" + date.getDate();
+    }
+  }
   return pubDate;
 }
 
@@ -65,15 +80,21 @@ var styles = StyleSheet.create({
     //backgroundColor: '#cccccc',
   },
   subInfoContainer: {
+    marginTop:10,
     flexDirection: 'row',
   },
   publisher: {
     flex: 1,
-    textAlign: 'left'
+    textAlign: 'left',
+    fontStyle: 'italic',
+    color: '#999999',
   },
   pubDate: {
     flex: 1,
-    textAlign: 'right'
+    textAlign: 'right',
+    fontStyle: 'italic',
+    color: '#999999',
+    marginRight:5,
   },
   thumbnail: {
     width: 80,
