@@ -8,6 +8,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  PixelRatio,
 } = React;
 
 var NewsCell = React.createClass({
@@ -27,6 +28,7 @@ var NewsCell = React.createClass({
 	            </View>
 	          </View>
 	        </TouchableHighlight>
+          <View style={styles.cellBorder} />
 	      </View>
     	);
 	},
@@ -58,6 +60,13 @@ var styles = StyleSheet.create({
   thumbnail: {
     width: 80,
     height: 80,
+  },
+
+  cellBorder: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    // Trick to get the thinest line the device can display
+    height: 1 / PixelRatio.get(),
+    marginLeft: 4,
   },
 
 });
