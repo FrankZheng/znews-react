@@ -2,16 +2,14 @@
 
 var React = require('react-native');
 var {
-  AppRegistry,
   ListView,
-  Image,
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
 } = React;
 
 var NewsDetailScreen = require('./NewsDetailScreen');
+var NewsCell = require('./NewsCell');
 
 var XNEWS_SERVER_URL = "http://xnewsreader.herokuapp.com/thumb";
 
@@ -51,8 +49,8 @@ var NewsListScreen = React.createClass({
 
   renderLoadingView: function() {
     return (
-      <View style={styles.container}>
-        <Text>
+      <View style={styles.loadingView}>
+        <Text style={styles.loadingText}>
           Loading news...
         </Text>
       </View>
@@ -71,21 +69,11 @@ var NewsListScreen = React.createClass({
   renderNewsView: function(news: Object) {
     var thumbUrl = getThumbUrlFromUrl(news.thumb);
     return (
-      <View>
-        <TouchableHighlight onPress={() => this.selectNews(news)}>
-          <View style={styles.container}>
-            <Image 
-              style={styles.thumbnail}
-              source={{uri: thumbUrl}} 
-            />
-            <View style={styles.rightContainer}>
-              <Text style={styles.title}>{news.title}</Text>
-              <Text style={styles.publisher}>{news.publisher} </Text>
-              <Text style={styles.pubDate}>{news.pubDate}</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      </View>
+      <NewsCell
+        onSelect={() => this.selectNews(news)}
+        news={news}
+        thumbUrl={thumbUrl}
+      />
     );
   },
   
@@ -105,44 +93,18 @@ var NewsListScreen = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  container: {
+  loadingView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    margin: 5,
+    padding: 5,
   },
-  rightContainer: {
-    flex: 1,
-    marginLeft: 10
-  },
-  title: {
-    fontSize : 16,
-    textAlign: 'left',
-  },
-  publisher: {
-    textAlign: 'left'
-  },
-  pubDate: {
-    textAlign: 'right'
-  },
-  welcome: {
+  loadingText: {
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  thumbnail: {
-    width: 80,
-    height: 80,
   },
   listView: {
-    paddingTop: 20,
     backgroundColor: '#F5FCFF',
   },
 });
