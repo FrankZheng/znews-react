@@ -13,6 +13,8 @@ var {
 
 var NewsListScreen = require('./NewsListScreen');
 var NewsDetailScreen = require('./NewsDetailScreen');
+var PagerSlidingTabStrip = require('./PagerSlidingTabStrip');
+var SectionsScreen = require('./SectionsScreen');
 
 var NewsApp = React.createClass({
   render: function() {

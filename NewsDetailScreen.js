@@ -64,9 +64,10 @@ var styles = StyleSheet.create({
 		backgroundColor: 'white',
 	},
 	text: {
-		fontSize : 16,
-    	textAlign: 'left',
-    	margin: 5,
+		fontSize: 16,
+		lineHeight: 18, //a larger value, like 20 will make too long text disappear.
+		textAlign: 'left',
+    	margin: 8,
 	},
 
 });

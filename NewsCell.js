@@ -43,7 +43,10 @@ var NewsCell = React.createClass({
 	              source={{uri: this.props.thumbUrl}} 
 	            />
 	            <View style={styles.textContainer}>
-	              <Text style={styles.title}>{this.props.news.title}</Text>
+	              <Text style={styles.title}
+                  numberOfLines={2}>
+                  {this.props.news.title}
+                </Text>
                 <View style={styles.subInfoContainer}>
 	               <Text style={styles.publisher}>{this.props.news.publisher} </Text>
 	               <Text style={styles.pubDate}>
