@@ -7,6 +7,7 @@ var {
   View,
   Text,
   TouchableHighlight,
+  ListView,
 } = React;
 
 var PagerSlidingTabStrip = require('./PagerSlidingTabStrip');
@@ -15,9 +16,12 @@ var sections = ['Top News', 'Finance', 'Technology'];
 
 var SectionsScreen = React.createClass({
 	getInitialState: function() {
+		var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+		var sections = ['头条','科技','财经'];
 		return {
-			sections: ['头条','科技','财经'],
+			sections: sections,
 			selected: 0,
+			dataSource: ds.cloneWithRows(sections),
 		};
 	},
 
@@ -25,7 +29,18 @@ var SectionsScreen = React.createClass({
 		this.setState({
 			sections: this.state.sections,
 			selected: index,
+			dataSource: this.state.dataSource,
 		});
+	},
+
+	renderRow: function(rowData: string) {
+		return (
+			<View style={styles.page}>
+				<Text style={styles.indictor}>
+					{rowData}
+				</Text>
+			</View>
+		);
 	},
 
 	render: function() {
@@ -36,7 +51,12 @@ var SectionsScreen = React.createClass({
 					selected={this.state.selected} 
 					selectItem={this.selectSection}/>
 				<View style={styles.separator} />
-				<View style={styles.pager} />
+				<ListView style={styles.pager} 
+					dataSource={this.state.dataSource}
+					pageEnabled={true}
+					horizontal={true}
+					renderRow={this.renderRow}
+				/>
 			</View>
 		);
 	}
@@ -58,8 +78,17 @@ var styles = StyleSheet.create({
 	},
 	pager: {
 		flex: 5,
-		//backgroundColor: '#cc0000',
+		backgroundColor: '#cccccc',
 	},
+	page: {
+		width: 320,
+		backgroundColor: '#999999',
+		justifyContent: 'center',
+	},
+	indictor: {
+		fontSize: 30,
+		textAlign: 'center',
+	}
 
 });
 

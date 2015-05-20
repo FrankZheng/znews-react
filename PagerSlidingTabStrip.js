@@ -40,22 +40,25 @@ var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'space-around',
 		alignItems: 'center',
 		paddingLeft: 5,
 		paddingRight: 5,
 		paddingTop: 15,
 	},
 	item: {
+		flex: 1,
 		fontSize: 16,
 		color: 'black',
 		paddingLeft: 20,
 		paddingRight: 20,
+		fontWeight: 'bold',
 		//backgroundColor: '#cccccc'
 	},
 	selected: {
 		color: '#cc0000',
-		fontWeight: 'bold',
+		//borderBottomColor: '#cc0000',
+		//borderBottomWidth: 2,
 		//backgroundColor: '#cccccc'
 	},
 
