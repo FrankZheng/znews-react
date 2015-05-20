@@ -15,6 +15,7 @@ var NewsListScreen = require('./NewsListScreen');
 var NewsDetailScreen = require('./NewsDetailScreen');
 var PagerSlidingTabStrip = require('./PagerSlidingTabStrip');
 var SectionsScreen = require('./SectionsScreen');
+var FlexboxTest = require('./FlexboxTest');
 
 var NewsApp = React.createClass({
   render: function() {
@@ -23,7 +24,7 @@ var NewsApp = React.createClass({
         style={styles.container}
         initialRoute={{
           title: 'News',
-          component: NewsListScreen, 
+          component: SectionsScreen, 
           rightButtonTitle: "Refresh",
         }}
       />

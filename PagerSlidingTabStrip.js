@@ -12,33 +12,21 @@ var {
 
 
 var PagerSlidingTabStrip = React.createClass({
-	getInitialState: function() {
-		return {
-			items : ['Top News', 'Finance', 'Technology', '头条', '科技', '财经'],
-			selected : 0,
-		};
-	},
-
-	selectItem: function(index) {
-		this.setState({
-			items: this.state.items,
-			selected: index,
-		});
-	},
 	
 	render: function() {
 		return (
-			<ScrollView style={styles.scrollview}
-				horizontal={true}>
-				{this.state.items.map((item,i) => 
+			<ScrollView style={styles.scrollview}>
+				<View style={styles.container}>  
+				{this.props.items.map((item,i) => 
 					<TouchableHighlight 
-						onPress={()=>this.selectItem(i)}
+						onPress={()=>this.props.selectItem(i)}
 						underlayColor="white">
-						<Text style={(i!==this.state.selected) ? styles.item : styles.selectedItem}>
+						<Text style={[styles.item, i === this.props.selected && styles.selected]}>
 							{item}
 						</Text>
 					</TouchableHighlight>
 				)}
+				</View>
 			</ScrollView>
 		);
 	},
@@ -49,13 +37,26 @@ var styles = StyleSheet.create({
 	scrollview: {
 		flex: 1,
 	},
-	item: {
-		margin: 5,
-		color: 'black',
+	container: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingLeft: 5,
+		paddingRight: 5,
+		paddingTop: 15,
 	},
-	selectedItem: {
-		margin: 5,
-		color: 'blue',
+	item: {
+		fontSize: 16,
+		color: 'black',
+		paddingLeft: 20,
+		paddingRight: 20,
+		//backgroundColor: '#cccccc'
+	},
+	selected: {
+		color: '#cc0000',
+		fontWeight: 'bold',
+		//backgroundColor: '#cccccc'
 	},
 
 
