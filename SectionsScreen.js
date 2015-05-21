@@ -14,6 +14,9 @@ var PagerSlidingTabStrip = require('./PagerSlidingTabStrip');
 
 var sections = ['Top News', 'Finance', 'Technology'];
 
+var PAGE_WIDTH = 375;
+var PAGE_HEIGHT = 555;
+
 var SectionsScreen = React.createClass({
 	
 	getInitialState: function() {
@@ -30,11 +33,9 @@ var SectionsScreen = React.createClass({
 		this.setState({
 			selected: index,
 		});
-		var width = 375;
-		var x = index * width;
-		console.log('selectSection', this.listview);
-		this.refs.listview.refs.listviewscroll.scrollTo(-64,x);
-
+		var x = index * PAGE_WIDTH;
+		//console.log('selectSection', this.listview);
+		this.refs.listview.refs.listviewscroll.scrollTo(0, x);
 	},
 
 	onPageLayout: function(event) {
@@ -55,59 +56,46 @@ var SectionsScreen = React.createClass({
 		console.log('onListViewLayout', event);
 	},
 
-	onListViewScroll: function(event) {
-		console.log('onListViewScroll', event);
+	shouldComponentUpdate: function(nextProps, nextState) {
+		console.log("shouldComponentUpdate");
+ 	 	return nextProps.selected !== this.state.selected;
+	},
 
+	onListViewScroll: function(event) {
+		console.log('onListViewScroll', event.nativeEvent.contentOffset.x);
+		var x = event.nativeEvent.contentOffset.x;
+		var threshold = PAGE_WIDTH / 3;
+		var index = Math.round((x + threshold) / PAGE_WIDTH);
+		this.setState({
+			selected: index,
+		});
 	},
 
 	onScrollAnimationEnd: function(event) {
-		console.log('onScrollAnimationEnd', event);
+		console.log('onScrollAnimationEnd');
 	},
-
-	onListViewChangeVisibieRows: function(visibleRows, changedRows) {
-		console.log('onListViewChangeVisibieRows, visibleRows', visibleRows);
-		console.log('onListViewChangeVisibieRows, changedRows', changedRows);
-	},
-
-	renderListViewHeader: function() {
+	
+	render: function() {
 		return (
-			<PagerSlidingTabStrip style={styles.strip}
+			<View style={styles.container}>
+				<PagerSlidingTabStrip style={styles.strip}
 					items={this.state.sections} 
 					selected={this.state.selected} 
-					selectItem={this.selectSection}/>
-		);
-	},
+					selectItem={this.selectSection} />
 
-	renderTop: function() {
+				<View style={styles.separator} />
 
-	},
-
-	renderCenter: function() {
-
-	},
-
-	renderBottom: function() {
-
-	},
-
-	render: function() {
-
-		var listview = (<ListView style={styles.pager} 
+				<ListView style={styles.pager} 
 					ref={'listview'}
+					automaticallyAdjustContentInsets={false}
 					dataSource={this.state.dataSource}
 					pagingEnabled={true}
 					horizontal={true}
 					onLayout={this.onListViewLayout}
-					renderRow={this.renderRow}
 					onScroll={this.onListViewScroll}
-					onChangeVisibleRows={this.onListViewChangeVisibieRows}
-					onScrollAnimationEnd={this.onScrollAnimationEnd}
-					automaticallyAdjustContentInsets={false}
-					/>);
-		return (
-			<View style={styles.container}>
-				<View style={styles.top} />
-				{listview}
+					scrollEventThrottle={100}
+					renderRow={this.renderRow}
+					/>	
 			</View>
 		);
 	}
@@ -118,12 +106,12 @@ var styles = StyleSheet.create({
 		flex: 1 ,
 		//flexDirection: 'column',
 		//alignItems: 'stretch',
-		backgroundColor: 'red',
+		//backgroundColor: '',
 		//justifyContent: 'center',
-		paddingTop: 64,
+		//paddingTop: 64,
 	},
 	strip: {
-		height: 30,
+		flex: 1,
 		backgroundColor: '#0000cc',
 		
 	},
@@ -133,39 +121,22 @@ var styles = StyleSheet.create({
 	},
 	
 	pager: {
-		flex: 1,
+		flex: 5,
 		//backgroundColor: '#cccccc',
 	},
 
 	page: {
-		//width: 375,
-		//height: 555,
-		//top:0,
-		flex: 1,
-		backgroundColor: '#999999',
-		//justifyContent: 'center',
-		//alignItems: 'center',
+		width: PAGE_WIDTH,
+		height: PAGE_HEIGHT,
+		//flex: 1,
+		//backgroundColor: '#999999',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	indictor: {
 		fontSize: 30,
 		textAlign: 'center',
 	},
-	top: {
-		height: 200,
-		backgroundColor: 'yellow',
-	},
-	center: {
-		flex: 1,
-		backgroundColor: 'gray',
-	},
-	bottom: {
-		height: 100,
-		backgroundColor: 'blue',
-
-	},
-
-
-
 });
 
 module.exports = SectionsScreen;

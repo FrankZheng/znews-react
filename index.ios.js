@@ -25,7 +25,7 @@ var NewsApp = React.createClass({
         initialRoute={{
           title: 'News',
           component: SectionsScreen, 
-          rightButtonTitle: "Refresh",
+          //rightButtonTitle: "Refresh",
         }}
       />
     );
