@@ -15,6 +15,7 @@ var PagerSlidingTabStrip = require('./PagerSlidingTabStrip');
 var sections = ['Top News', 'Finance', 'Technology'];
 
 var SectionsScreen = React.createClass({
+	
 	getInitialState: function() {
 		var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		var sections = ['头条','科技','财经'];
@@ -27,15 +28,22 @@ var SectionsScreen = React.createClass({
 
 	selectSection: function(index) {
 		this.setState({
-			sections: this.state.sections,
 			selected: index,
-			dataSource: this.state.dataSource,
 		});
+		var width = 375;
+		var x = index * width;
+		console.log('selectSection', this.listview);
+		this.refs.listview.refs.listviewscroll.scrollTo(-64,x);
+
 	},
 
-	renderRow: function(rowData: string) {
+	onPageLayout: function(event) {
+		console.log('onPageLayout', event);
+	},
+
+	renderRow: function(rowData: string) { 
 		return (
-			<View style={styles.page}>
+			<View style={styles.page} onLayout={this.onPageLayout}>
 				<Text style={styles.indictor}>
 					{rowData}
 				</Text>
@@ -43,20 +51,63 @@ var SectionsScreen = React.createClass({
 		);
 	},
 
-	render: function() {
+	onListViewLayout: function(event) {
+		console.log('onListViewLayout', event);
+	},
+
+	onListViewScroll: function(event) {
+		console.log('onListViewScroll', event);
+
+	},
+
+	onScrollAnimationEnd: function(event) {
+		console.log('onScrollAnimationEnd', event);
+	},
+
+	onListViewChangeVisibieRows: function(visibleRows, changedRows) {
+		console.log('onListViewChangeVisibieRows, visibleRows', visibleRows);
+		console.log('onListViewChangeVisibieRows, changedRows', changedRows);
+	},
+
+	renderListViewHeader: function() {
 		return (
-			<View style={styles.container}>
-				<PagerSlidingTabStrip style={styles.strip}
+			<PagerSlidingTabStrip style={styles.strip}
 					items={this.state.sections} 
 					selected={this.state.selected} 
 					selectItem={this.selectSection}/>
-				<View style={styles.separator} />
-				<ListView style={styles.pager} 
+		);
+	},
+
+	renderTop: function() {
+
+	},
+
+	renderCenter: function() {
+
+	},
+
+	renderBottom: function() {
+
+	},
+
+	render: function() {
+
+		var listview = (<ListView style={styles.pager} 
+					ref={'listview'}
 					dataSource={this.state.dataSource}
-					pageEnabled={true}
+					pagingEnabled={true}
 					horizontal={true}
+					onLayout={this.onListViewLayout}
 					renderRow={this.renderRow}
-				/>
+					onScroll={this.onListViewScroll}
+					onChangeVisibleRows={this.onListViewChangeVisibieRows}
+					onScrollAnimationEnd={this.onScrollAnimationEnd}
+					automaticallyAdjustContentInsets={false}
+					/>);
+		return (
+			<View style={styles.container}>
+				<View style={styles.top} />
+				{listview}
 			</View>
 		);
 	}
@@ -65,30 +116,55 @@ var SectionsScreen = React.createClass({
 var styles = StyleSheet.create({
 	container: {
 		flex: 1 ,
-		flexDirection: 'column',
+		//flexDirection: 'column',
+		//alignItems: 'stretch',
+		backgroundColor: 'red',
+		//justifyContent: 'center',
+		paddingTop: 64,
 	},
 	strip: {
-		flex: 1,
-		//backgroundColor: '#0000cc',
+		height: 30,
+		backgroundColor: '#0000cc',
 		
 	},
 	separator: {
 		height: 1,
 		backgroundColor: '#cccccc'
 	},
+	
 	pager: {
-		flex: 5,
-		backgroundColor: '#cccccc',
+		flex: 1,
+		//backgroundColor: '#cccccc',
 	},
+
 	page: {
-		width: 320,
+		//width: 375,
+		//height: 555,
+		//top:0,
+		flex: 1,
 		backgroundColor: '#999999',
-		justifyContent: 'center',
+		//justifyContent: 'center',
+		//alignItems: 'center',
 	},
 	indictor: {
 		fontSize: 30,
 		textAlign: 'center',
-	}
+	},
+	top: {
+		height: 200,
+		backgroundColor: 'yellow',
+	},
+	center: {
+		flex: 1,
+		backgroundColor: 'gray',
+	},
+	bottom: {
+		height: 100,
+		backgroundColor: 'blue',
+
+	},
+
+
 
 });
 
