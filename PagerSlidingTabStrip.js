@@ -15,7 +15,7 @@ var PagerSlidingTabStrip = React.createClass({
 	
 	render: function() {
 		return (
-			<ScrollView style={styles.scrollview}>
+			<ScrollView style={[styles.scrollview, this.props.style]}>
 				<View style={styles.container}>  
 				{this.props.items.map((item,i) => 
 					<TouchableHighlight 

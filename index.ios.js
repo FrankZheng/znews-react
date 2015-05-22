@@ -24,8 +24,9 @@ var NewsApp = React.createClass({
         style={styles.container}
         initialRoute={{
           title: 'News',
-          component: SectionsScreen, 
+          component: FlexboxTest, 
           //rightButtonTitle: "Refresh",
+          //passProps: {style:{backgroundColor: 'yellow'}},
         }}
       />
     );

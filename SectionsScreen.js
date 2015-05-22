@@ -21,7 +21,7 @@ var SectionsScreen = React.createClass({
 	
 	getInitialState: function() {
 		var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-		var sections = ['头条','科技','财经'];
+		var sections = ['头条','科技','财经', '生活'];
 		return {
 			sections: sections,
 			selected: 0,
@@ -111,7 +111,7 @@ var styles = StyleSheet.create({
 		//paddingTop: 64,
 	},
 	strip: {
-		flex: 1,
+		height: 30,
 		backgroundColor: '#0000cc',
 		
 	},
@@ -121,7 +121,7 @@ var styles = StyleSheet.create({
 	},
 	
 	pager: {
-		flex: 5,
+		flex: 1,
 		//backgroundColor: '#cccccc',
 	},
 
